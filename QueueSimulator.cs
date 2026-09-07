@@ -76,14 +76,33 @@ namespace OPDQueueSimulator
                 ? TimeSpan.Zero
                 : Patients.Last().SimulatedServiceEnd - Patients.First().SimulatedServiceStart;
 
-        public double AverageWaitingTimeMinutes =>
-            TotalCustomers == 0 ? 0 : TotalWaitingTime.TotalMinutes / TotalCustomers;
+       // ---- Wq : average waiting time IN QUEUE per customer ----
+public double AverageWaitingTimeMinutes =>
+    TotalCustomers == 0 ? 0 : TotalWaitingTime.TotalMinutes / TotalCustomers;
+public double Wq => AverageWaitingTimeMinutes;
 
-        public double AverageServiceTimeMinutes =>
-            TotalCustomers == 0 ? 0 : TotalServiceTime.TotalMinutes / TotalCustomers;
+public double AverageServiceTimeMinutes =>
+    TotalCustomers == 0 ? 0 : TotalServiceTime.TotalMinutes / TotalCustomers;
 
-        public double AverageTimeInSystemMinutes =>
-            TotalCustomers == 0 ? 0 : Patients.Sum(p => p.TimeInSystem.TotalMinutes) / TotalCustomers;
+// ---- W : average time IN SYSTEM (queue + service) per customer ----
+public double AverageTimeInSystemMinutes =>
+    TotalCustomers == 0 ? 0 : Patients.Sum(p => p.TimeInSystem.TotalMinutes) / TotalCustomers;
+public double W => AverageTimeInSystemMinutes;
+
+// ---- λ : average arrival rate (customers per minute) ----
+public double ArrivalRatePerMinute
+{
+    get
+    {
+        if (TotalCustomers < 2) return 0;
+        double spanMinutes = (Patients.Last().ArrivalTime - Patients.First().ArrivalTime).TotalMinutes;
+        return spanMinutes <= 0 ? 0 : (TotalCustomers - 1) / spanMinutes;
+    }
+}
+
+// ---- Little's Law:  L = λW   and   Lq = λWq ----
+public double L  => ArrivalRatePerMinute * W;
+public double Lq => ArrivalRatePerMinute * Wq;
 
         // Server utilization = fraction of the open period spent busy serving.
         public double ServerUtilizationPercent =>

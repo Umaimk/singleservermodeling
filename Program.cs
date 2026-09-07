@@ -107,9 +107,14 @@ namespace OPDQueueSimulator
             Console.WriteLine($"Total elapsed (open) time       : {(int)sim.TotalElapsedTime.TotalMinutes} min");
             Console.WriteLine();
             Console.WriteLine($"Average service time / patient  : {sim.AverageServiceTimeMinutes:F2} min");
-            Console.WriteLine($"Average waiting time / patient   : {sim.AverageWaitingTimeMinutes:F2} min");
-            Console.WriteLine($"Average time in system / patient : {sim.AverageTimeInSystemMinutes:F2} min");
             Console.WriteLine($"Server utilization               : {sim.ServerUtilizationPercent:F2} %");
+            Console.WriteLine();
+            Console.WriteLine("---- Queueing-theory measures ----");
+            Console.WriteLine($"Wq  (avg wait time in queue)      : {sim.Wq:F2} min");
+            Console.WriteLine($"W   (avg time in system)          : {sim.W:F2} min");
+            Console.WriteLine($"lambda (arrival rate)              : {sim.ArrivalRatePerMinute:F3} customers/min");
+            Console.WriteLine($"Lq  (avg # waiting in queue)       : {sim.Lq:F2}");
+            Console.WriteLine($"L   (avg # in system)             : {sim.L:F2}");
             Console.WriteLine($"Patients who had to wait          : {sim.CustomersWhoWaited} / {sim.TotalCustomers} " +
                                $"({sim.ProbabilityOfWaiting:F1} %)");
 

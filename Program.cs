@@ -49,7 +49,9 @@ namespace OPDQueueSimulator
                 {
                     Console.WriteLine("\nPress Enter to continue...");
                     Console.ReadLine();
-                    Console.Clear();
+                    Console.WriteLine();
+                    Console.WriteLine(new string('=', 100));
+                    Console.WriteLine();
                 }
             }
 

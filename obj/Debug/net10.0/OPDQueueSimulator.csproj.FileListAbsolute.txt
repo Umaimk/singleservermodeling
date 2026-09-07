@@ -12,3 +12,4 @@ C:\Users\HP\flyrankproj\OPDQueueSimulator\obj\Debug\net10.0\refint\OPDQueueSimul
 C:\Users\HP\flyrankproj\OPDQueueSimulator\obj\Debug\net10.0\OPDQueueSimulator.pdb
 C:\Users\HP\flyrankproj\OPDQueueSimulator\obj\Debug\net10.0\OPDQueueSimulator.genruntimeconfig.cache
 C:\Users\HP\flyrankproj\OPDQueueSimulator\obj\Debug\net10.0\ref\OPDQueueSimulator.dll
+C:\Users\HP\flyrankproj\OPDQueueSimulator\obj\Debug\net10.0\OPDQueueSimulator.sourcelink.json

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OPDQueueSimulator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fab233bd7f12440e3b1d24494bfc1b72ec386d28")]
 [assembly: System.Reflection.AssemblyProductAttribute("OPDQueueSimulator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OPDQueueSimulator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

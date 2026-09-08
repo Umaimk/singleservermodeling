@@ -4,21 +4,7 @@ using System.Linq;
 
 namespace OPDQueueSimulator
 {
-    /// <summary>
-    /// Implements a deterministic single-server (single-channel), FCFS
-    /// queueing simulation:
-    ///
-    ///   ServiceStart[i] = max( Arrival[i], ServiceEnd[i-1] )
-    ///   ServiceEnd[i]   = ServiceStart[i] + ServiceTime[i]
-    ///   Wait[i]         = ServiceStart[i] - Arrival[i]
-    ///   TimeInSystem[i] = ServiceEnd[i] - Arrival[i]
-    ///   Idle[i]         = max( 0, ServiceStart[i] - ServiceEnd[i-1] )
-    ///
-    /// This is the standard single-server queue recurrence taught in
-    /// simulation/operations-research courses. The server can only ever be
-    /// doing one of: idle, or serving exactly one customer, at any instant.
-    /// </summary>
-    public class QueueSimulator
+        public class QueueSimulator
     {
         public List<Patient> Patients { get; }
 
@@ -35,9 +21,7 @@ namespace OPDQueueSimulator
             foreach (var p in Patients)
             {
                 TimeSpan serviceStart = previousServiceEnd is null
-                    ? p.ActualServiceStart   // server has no prior history yet;
-                                              // anchor the very first customer to
-                                              // the actual opening-of-service time
+                    ? p.ActualServiceStart  
                     : Max(p.ArrivalTime, previousServiceEnd.Value);
 
                 TimeSpan serviceEnd = serviceStart + p.ServiceTime;
@@ -76,33 +60,15 @@ namespace OPDQueueSimulator
                 ? TimeSpan.Zero
                 : Patients.Last().SimulatedServiceEnd - Patients.First().SimulatedServiceStart;
 
-       // ---- Wq : average waiting time IN QUEUE per customer ----
-public double AverageWaitingTimeMinutes =>
-    TotalCustomers == 0 ? 0 : TotalWaitingTime.TotalMinutes / TotalCustomers;
-public double Wq => AverageWaitingTimeMinutes;
+        // ---- Simulation averages ----
+        public double AverageWaitingTimeMinutes =>
+            TotalCustomers == 0 ? 0 : TotalWaitingTime.TotalMinutes / TotalCustomers;
 
-public double AverageServiceTimeMinutes =>
-    TotalCustomers == 0 ? 0 : TotalServiceTime.TotalMinutes / TotalCustomers;
+        public double AverageServiceTimeMinutes =>
+            TotalCustomers == 0 ? 0 : TotalServiceTime.TotalMinutes / TotalCustomers;
 
-// ---- W : average time IN SYSTEM (queue + service) per customer ----
-public double AverageTimeInSystemMinutes =>
-    TotalCustomers == 0 ? 0 : Patients.Sum(p => p.TimeInSystem.TotalMinutes) / TotalCustomers;
-public double W => AverageTimeInSystemMinutes;
-
-// ---- λ : average arrival rate (customers per minute) ----
-public double ArrivalRatePerMinute
-{
-    get
-    {
-        if (TotalCustomers < 2) return 0;
-        double spanMinutes = (Patients.Last().ArrivalTime - Patients.First().ArrivalTime).TotalMinutes;
-        return spanMinutes <= 0 ? 0 : (TotalCustomers - 1) / spanMinutes;
-    }
-}
-
-// ---- Little's Law:  L = λW   and   Lq = λWq ----
-public double L  => ArrivalRatePerMinute * W;
-public double Lq => ArrivalRatePerMinute * Wq;
+        public double AverageTimeInSystemMinutes =>
+            TotalCustomers == 0 ? 0 : Patients.Sum(p => p.TimeInSystem.TotalMinutes) / TotalCustomers;
 
         // Server utilization = fraction of the open period spent busy serving.
         public double ServerUtilizationPercent =>

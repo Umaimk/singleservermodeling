@@ -3,10 +3,7 @@ using System.Collections.Generic;
 
 namespace OPDQueueSimulator
 {
-    /// <summary>
-    /// Source data: NICVD Cardiac OPD, Group 1 register.
-    /// Columns: Serial No., Name, Arrival Time, Service Start Time, Service End Time.
-    /// </summary>
+    
     public static class OpdDataset
     {
         public static List<Patient> Load()
